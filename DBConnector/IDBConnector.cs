@@ -4,5 +4,5 @@ namespace DBConnector;
 
 public interface IDBConnector
 {
-    public Task<bool> ping(bool result);
+    Task<bool> ping(bool result);
 }

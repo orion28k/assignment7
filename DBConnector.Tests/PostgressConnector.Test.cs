@@ -3,26 +3,26 @@
 public class PostgresConnectorTest
 {
     [Fact]
-    public void Test1()
+    public async Task Test1()
     {
         // Arrange: create the connector
         var connector = new PostgresConnector();
 
-        // Act: call the method under test
-        var result = connector.ping(true);
+        // Act: call the method under test and await it
+        bool result = await connector.ping(true);
 
         // Assert: verify the outcome
         Assert.True(result);
     }
     
     [Fact]
-    public void Test2()
+    public async Task Test2()
     {
         // Arrange: create the connector
         var connector = new PostgresConnector();
 
-        // Act: call the method under test
-        var result = connector.ping(false);
+        // Act: call the method under test and await it
+        bool result = await connector.ping(false);
 
         // Assert: verify the outcome
         Assert.False(result);

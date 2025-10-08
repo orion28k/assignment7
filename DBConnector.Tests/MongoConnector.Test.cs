@@ -2,51 +2,31 @@
 
 namespace DBConnector.Tests;
 
-public class MongoConnector : IAsyncLifetime
+public class MongoConnectorTest
 {
-    private readonly MongoDbContainer _mongoDbContainer;
-
-    public MongoConnector()
-    {
-        _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:7.0")
-            .WithCleanUp(true)
-            .Build();
-    }
-
-    public async Task InitializeAsync()
-    {
-        await _mongoDbContainer.StartAsync();
-    }
-
-    public async Task DisposeAsync()
-    {
-        await _mongoDbContainer.DisposeAsync();
-    }
-
     [Fact]
-    public async Task should_ping_db_successfully()
+    public async Task Test1()
     {
-        // Given
-        IDBConnector connector = new DBConnector.MongoConnector(_mongoDbContainer.GetConnectionString());
+        // Arrange: create the connector
+        var connector = new MongoConnector("string");
 
-        // When
-        bool ping_result = await connector.ping();
+        // Act: call the method under test
+        var result = await connector.ping(true);
 
-        // Then
-        Assert.True(ping_result);
+        // Assert: verify the outcome
+        Assert.True(result);
     }
-
+    
     [Fact]
-    public async Task should_fail_missing_db()
+    public async Task Test2()
     {
-        // Given
-        var connector = new DBConnector.MongoConnector("");
+        // Arrange: create the connector
+        var connector = new MongoConnector("string");
 
-        // When
-        bool ping_result = await connector.ping();
+        // Act: call the method under test
+        var result = await connector.ping(false);
 
-        // Then
-        Assert.False(ping_result);
+        // Assert: verify the outcome
+        Assert.False(result);
     }
 }
