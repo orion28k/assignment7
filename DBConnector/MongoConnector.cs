@@ -12,7 +12,7 @@ public class MongoConnector : IDBConnector
         m_connectionString = connectionString;
     }
 
-    public async Task<bool> ping()
+    public async Task<bool> ping(bool res)
     {
         try
         {
