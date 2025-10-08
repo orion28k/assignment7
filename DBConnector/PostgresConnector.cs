@@ -1,3 +1,5 @@
+using ZstdSharp.Unsafe;
+
 namespace DBConnector;
 
 public class PostgresConnector : IDBConnector

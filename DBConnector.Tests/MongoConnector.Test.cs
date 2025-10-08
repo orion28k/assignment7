@@ -28,7 +28,7 @@ public class MongoConnector : IAsyncLifetime
     public async Task should_ping_db_successfully()
     {
         // Given
-        DataStore connector = new DBConnector.MongoConnector(_mongoDbContainer.GetConnectionString());
+        IDBConnector connector = new DBConnector.MongoConnector(_mongoDbContainer.GetConnectionString());
 
         // When
         bool ping_result = await connector.ping();
