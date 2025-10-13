@@ -1,34 +1,34 @@
-﻿using Testcontainers.MongoDb;
+using Testcontainers.PostgreSql;
 
 namespace DBConnector.Tests;
 
-public class MongoConnector : IAsyncLifetime
+public class PostgresConnector : IAsyncLifetime
 {
-    private readonly MongoDbContainer _mongoDbContainer;
+    private readonly PostgreSqlContainer _postgresDbContainer;
 
-    public MongoConnector()
+    public PostgresConnector()
     {
-        _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:7.0")
+        _postgresDbContainer = new PostgreSqlBuilder()
+            .WithDatabase("testdb")
             .WithCleanUp(true)
             .Build();
     }
 
     public async Task InitializeAsync()
     {
-        await _mongoDbContainer.StartAsync();
+        await _postgresDbContainer.StartAsync();
     }
 
     public async Task DisposeAsync()
     {
-        await _mongoDbContainer.DisposeAsync();
+        await _postgresDbContainer.DisposeAsync();
     }
 
     [Fact]
     public async Task should_ping_db_successfully()
     {
         // Given
-        IDBConnector connector = new DBConnector.MongoConnector(_mongoDbContainer.GetConnectionString());
+        IDBConnector connector = new DBConnector.PostgresConnector(_postgresDbContainer.GetConnectionString());
 
         // When
         bool ping_result = await connector.ping();
@@ -41,7 +41,7 @@ public class MongoConnector : IAsyncLifetime
     public async Task should_fail_missing_db()
     {
         // Given
-        var connector = new DBConnector.MongoConnector("");
+        var connector = new DBConnector.PostgresConnector("");
 
         // When
         bool ping_result = await connector.ping();
@@ -50,3 +50,4 @@ public class MongoConnector : IAsyncLifetime
         Assert.False(ping_result);
     }
 }
+

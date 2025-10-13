@@ -3,7 +3,7 @@ using MongoDB.Driver;
 
 namespace DBConnector;
 
-public class MongoConnector : DataStore
+public class MongoConnector : IDBConnector
 {
     private string m_connectionString;
 
