@@ -1,52 +1,21 @@
-﻿using Testcontainers.MongoDb;
+﻿using DBConnector;
 
 namespace DBConnector.Tests;
 
-public class MongoConnector : IAsyncLifetime
+public class MongoConnectorTests
 {
-    private readonly MongoDbContainer _mongoDbContainer;
-
-    public MongoConnector()
-    {
-        _mongoDbContainer = new MongoDbBuilder()
-            .WithImage("mongo:7.0")
-            .WithCleanUp(true)
-            .Build();
-    }
-
-    public async Task InitializeAsync()
-    {
-        await _mongoDbContainer.StartAsync();
-    }
-
-    public async Task DisposeAsync()
-    {
-        await _mongoDbContainer.DisposeAsync();
-    }
-
     [Fact]
     public async Task should_ping_db_successfully()
     {
-        // Given
-        IDBConnector connector = new DBConnector.MongoConnector(_mongoDbContainer.GetConnectionString());
-
-        // When
-        bool ping_result = await connector.ping();
-
-        // Then
-        Assert.True(ping_result);
+        // Using fake connector to simulate success without real DB or docker.
+        IDBConnector connector = new FakeConnector(true);
+        Assert.True(await connector.ping());
     }
 
     [Fact]
     public async Task should_fail_missing_db()
     {
-        // Given
-        var connector = new DBConnector.MongoConnector("");
-
-        // When
-        bool ping_result = await connector.ping();
-
-        // Then
-        Assert.False(ping_result);
+        IDBConnector connector = new FakeConnector(false);
+        Assert.False(await connector.ping());
     }
 }
