@@ -425,6 +425,15 @@ test-results/
 # Mac bundle stuff
 *.dmg
 *.app
+# Allow the C# console project directory named DBConnector.App
+!DBConnector.App/
+# Unignore only source/build definition files inside DBConnector.App
+!DBConnector.App/*.cs
+!DBConnector.App/*.csproj
+!DBConnector.App/*.md
+# Keep bin and obj inside DBConnector.App ignored
+DBConnector.App/[Bb]in/
+DBConnector.App/[Oo]bj/
 
 # content below from: https://github.com/github/gitignore/blob/main/Global/macOS.gitignore
 # General
